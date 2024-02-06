@@ -35,13 +35,15 @@ function formatDay(dateStr) {
 
 class App extends React.Component {
   state = {
-    location: "kashan",
+    location: "",
     displayLocation: "",
     weather: {},
     isLoading: false,
   };
 
   fetchWeather = async () => {
+    if (this.state.location.length < 2) return this.setState({ weather: {} });
+
     this.setState({ isLoading: true });
 
     try {
@@ -68,7 +70,7 @@ class App extends React.Component {
 
       this.setState({ weather: weatherData.daily });
     } catch (err) {
-      console.err(err.message);
+      console.error(err.message);
     } finally {
       this.setState({ isLoading: false });
     }
@@ -78,6 +80,18 @@ class App extends React.Component {
     this.setState({ location: e.target.value });
   };
 
+  componentDidMount() {
+    this.setState({ location: localStorage.getItem("location") || "" });
+  }
+
+  componentDidUpdate(preProps, preState) {
+    if (this.state.location !== preState.location) {
+      this.fetchWeather();
+
+      localStorage.setItem("location", this.state.location);
+    }
+  }
+
   render() {
     return (
       <div className="app">
@@ -86,7 +100,6 @@ class App extends React.Component {
           location={this.state.location}
           onSetLocation={this.setLocation}
         />
-        <button onClick={this.fetchWeather}>Get Weather</button>
         {this.state.isLoading && <p className="loader">Loading ...</p>}
 
         {this.state.weather.weathercode && (
