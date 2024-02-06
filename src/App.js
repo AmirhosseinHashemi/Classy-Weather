@@ -34,20 +34,14 @@ function formatDay(dateStr) {
 }
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    location: "kashan",
+    displayLocation: "",
+    weather: {},
+    isLoading: false,
+  };
 
-    this.state = {
-      location: "kashan",
-      displayLocation: "",
-      weather: {},
-      isLoading: false,
-    };
-
-    this.fetchWeather = this.fetchWeather.bind(this);
-  }
-
-  async fetchWeather() {
+  fetchWeather = async () => {
     this.setState({ isLoading: true });
 
     try {
@@ -79,7 +73,7 @@ class App extends React.Component {
     } finally {
       this.setState({ isLoading: false });
     }
-  }
+  };
 
   render() {
     return (
