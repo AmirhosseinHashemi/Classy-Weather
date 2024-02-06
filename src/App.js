@@ -50,7 +50,6 @@ class App extends React.Component {
         `https://geocoding-api.open-meteo.com/v1/search?name=${this.state.location}`
       );
       const geoData = await geoRes.json();
-      console.log(geoData);
 
       if (!geoData.results) throw new Error("Location not found");
 
@@ -69,28 +68,24 @@ class App extends React.Component {
 
       this.setState({ weather: weatherData.daily });
     } catch (err) {
-      console.err(err);
+      console.err(err.message);
     } finally {
       this.setState({ isLoading: false });
     }
+  };
+
+  setLocation = (e) => {
+    this.setState({ location: e.target.value });
   };
 
   render() {
     return (
       <div className="app">
         <h1>Classy Weather</h1>
-
-        <div>
-          <input
-            type="text"
-            value={this.state.location}
-            onChange={(e) =>
-              this.setState({
-                location: e.target.value,
-              })
-            }
-          ></input>
-        </div>
+        <Input
+          location={this.state.location}
+          onSetLocation={this.setLocation}
+        />
         <button onClick={this.fetchWeather}>Get Weather</button>
         {this.state.isLoading && <p className="loader">Loading ...</p>}
 
@@ -100,6 +95,20 @@ class App extends React.Component {
             loc={this.state.displayLocation}
           />
         )}
+      </div>
+    );
+  }
+}
+
+class Input extends React.Component {
+  render() {
+    return (
+      <div>
+        <input
+          type="text"
+          value={this.props.location}
+          onChange={this.props.onSetLocation}
+        ></input>
       </div>
     );
   }
@@ -126,6 +135,7 @@ class Weather extends React.Component {
               max={max.at(i)}
               code={codes.at(i)}
               isToday={i === 0}
+              key={date}
             />
           ))}
         </ul>
