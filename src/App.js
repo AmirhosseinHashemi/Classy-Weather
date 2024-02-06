@@ -17,12 +17,15 @@ class App extends React.Component {
       location: "kashan",
       displayLocation: "",
       weather: {},
+      isLoading: false,
     };
 
     this.fetchWeather = this.fetchWeather.bind(this);
   }
 
   async fetchWeather() {
+    this.setState({ isLoading: true });
+
     try {
       // 1) Getting location (geocoding)
       const geoRes = await fetch(
@@ -49,6 +52,8 @@ class App extends React.Component {
       this.setState({ weather: weatherData.daily });
     } catch (err) {
       console.err(err);
+    } finally {
+      this.setState({ isLoading: false });
     }
   }
 
@@ -68,8 +73,9 @@ class App extends React.Component {
             }
           ></input>
         </div>
-
         <button onClick={this.fetchWeather}>Get Weather</button>
+
+        {this.state.isLoading && <p className="loader">Loading ...</p>}
       </div>
     );
   }
