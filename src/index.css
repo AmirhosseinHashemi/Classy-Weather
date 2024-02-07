@@ -13,21 +13,20 @@ html {
 body {
   font-family: "Cinzel Decorative", cursive;
   font-size: 2rem;
-  height: 100vh;
   color: #222;
   background-color: #eabfb9;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 5rem;
 }
 
 .app {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 112rem;
   gap: 4rem;
-  padding: 6rem 0;
+  padding: 2rem;
   border: 2px solid #222;
   outline: 2px solid #222;
   outline-offset: 1.2rem;
@@ -35,14 +34,16 @@ body {
 
 h1 {
   font-weight: 400;
-  font-size: 6rem;
+  font-size: 5rem;
   letter-spacing: 2px;
   word-spacing: 5px;
+  text-align: center;
 }
 
 h2 {
   text-align: center;
   margin-bottom: 2.4rem;
+  font-size: 3rem;
 }
 
 input {
@@ -52,7 +53,7 @@ input {
   background-color: #f0d2ce;
   padding: 1.6rem 3.2rem;
   border: none;
-  width: 32rem;
+  width: 100%;
 }
 
 input:focus {
@@ -62,6 +63,8 @@ input:focus {
 .weather {
   list-style: none;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 2.4rem;
 }
 
